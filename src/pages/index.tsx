@@ -1,8 +1,6 @@
 import Link from "next/link";
 import Head from "next/head";
 
-const createUrl = process.env.NEXT_PUBLIC_TUNEQUEST_CREATE_URL || "";
-
 export default function Home() {
     return (
         <>
@@ -52,7 +50,7 @@ export default function Home() {
                             >
                                 Play the Game
                             </Link>
-                            <Link href={createUrl} target="_blank" className="text-sm font-semibold leading-6 text-gray-900">
+                            <Link href="/REPLACEME_CREATE_URL" target="_blank" className="text-sm font-semibold leading-6 text-gray-900">
                                 Create Your Own Game <span aria-hidden="true">→</span>
                             </Link>
                         </div>

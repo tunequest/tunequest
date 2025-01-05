@@ -7,6 +7,7 @@ import { ForwardButton } from "@/components/ForwardButton";
 import { RewindButton } from "@/components/RewindButton";
 import ProgressBar from "@/components/ProgressBar";
 import NoSleep from 'nosleep.js';
+import TriggeredTimeout from "@/components/TriggeredTimeout";
 
 type Props = {
     token: string;
@@ -23,7 +24,10 @@ export default function GameController({token}: Props) {
     const device = usePlayerDevice();
     const [showScanner, setShowScanner] = useState<boolean>(true);
     const [randomStart, setRandomStart] = useState<boolean>(false);
-
+    const [showTriggeredTimeoutControls, setShowTriggeredTimeoutControls] = useState<boolean>(false);
+    const [triggeredTimeoutTargetSeconds, setTriggeredTimeoutTargetSeconds] = useState<number>(30);
+    const [triggeredTimeoutEnabledByDefault, setTriggeredTimeoutEnabledByDefault] = useState<boolean>(false);
+    const [triggeredTimeoutSoundEnabled, setTriggeredTimeoutSoundEnabled] = useState<boolean>(false);
 
     useEffect(() => {
         if(!showScanner){
@@ -31,6 +35,7 @@ export default function GameController({token}: Props) {
             noSleep.enable();
         }
     }, [showScanner]);
+
     const handleQrResult = (trackId: string) => {
         setShowScanner(false);
         if (device === null) return;
@@ -50,7 +55,6 @@ export default function GameController({token}: Props) {
         );
     }
 
-
     const goToNext = () => {
         player?.pause();
         setShowScanner(true);
@@ -58,6 +62,10 @@ export default function GameController({token}: Props) {
 
     if (device === null) return null;
     if (player === null) return null;
+
+    const handleTriggeredTimeoutTriggered = () => {
+        player?.pause();
+    };
 
     return (
         <div
@@ -81,7 +89,7 @@ export default function GameController({token}: Props) {
                 </>
             )}
             {!showScanner && (<>
-                <div className="flex flex-col w-full sm:w-2/5 py-24 px-4 mx-auto">
+                <div className="flex flex-col w-full sm:w-2/5 py-24 px-4 mx-auto flex-grow">
                     <h1 className="w-full text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl mb-12">
                         <span className="text-indigo-500">Tune</span>Quest
                     </h1>
@@ -96,7 +104,6 @@ export default function GameController({token}: Props) {
                         <RewindButton player={player} amount={10}/>
                         <PlayButton player={player}/>
                         <ForwardButton player={player} amount={10}/>
-
                     </div>
                     <div className="mt-16 flex w-full">
                         <button
@@ -106,6 +113,26 @@ export default function GameController({token}: Props) {
                             Scan Next Card
                         </button>
                     </div>
+                    {showTriggeredTimeoutControls && (<>
+                        <div>
+                            <TriggeredTimeout
+                                onTimeout={handleTriggeredTimeoutTriggered}
+                                enabledByDefault={triggeredTimeoutEnabledByDefault}
+                                setEnabledByDefault={setTriggeredTimeoutEnabledByDefault}
+                                targetSeconds={triggeredTimeoutTargetSeconds}
+                                setTargetSeconds={setTriggeredTimeoutTargetSeconds}
+                                soundEnabled={triggeredTimeoutSoundEnabled}
+                                setSoundEnabled={setTriggeredTimeoutSoundEnabled}
+                            />
+                        </div>
+                    </>)}
+                </div>
+                <div className="mb-8 w-full text-center">
+                    <button
+                        onClick={() => setShowTriggeredTimeoutControls(!showTriggeredTimeoutControls)}
+                    >
+                        Toggle triggered timeout controls
+                    </button>
                 </div>
             </>)}
         </div>
