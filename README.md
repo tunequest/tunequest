@@ -83,6 +83,14 @@ services:
     restart: unless-stopped
     ports:
       - 3000:3000
+    environment:
+      SPOTIFY_AUTHORIZE_URL: https://accounts.spotify.com/authorize
+      SPOTIFY_API_TOKEN_URL: https://accounts.spotify.com/api/token
+      SPOTIFY_REDIRECT_URI: http://localhost:3000/player
+      SPOTIFY_CLIENT_SECRET: xxx
+      SPOTIFY_CLIENT_ID: xxx
+      SPOTIFY_SCOPES: user-modify-playback-state streaming user-read-email user-read-private
+      TUNEQUEST_CREATE_URL: http://localhost:5173
 ```
 
 Run the docker image with docker compose:
