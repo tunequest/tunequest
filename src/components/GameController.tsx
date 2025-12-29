@@ -21,6 +21,15 @@ const hitsterMapping = {
     }
 }
 
+// Card labels and colors matching the bingo card creator
+const CARD_ASSIGNMENTS = [
+    { label: 'A', color: '#10b981' }, // green
+    { label: 'B', color: '#3b82f6' }, // blue
+    { label: 'C', color: '#8b5cf6' }, // purple
+    { label: 'D', color: '#ec4899' }, // pink
+    { label: 'E', color: '#f59e0b' }, // orange
+];
+
 export default function GameController({token}: Props) {
     const player = useSpotifyPlayer();
     const device = usePlayerDevice();
@@ -62,13 +71,33 @@ export default function GameController({token}: Props) {
         return bingoCategories.filter(category => gameSettings.selectedCategoryIds.includes(category.id));
     }, [gameSettings.selectedCategoryIds]);
 
+    // Create a mapping of category IDs to card assignments (A-E with colors)
+    const categoryCardMap = useMemo(() => {
+        const map = new Map<string, { label: string; color: string }>();
+        enabledCategories.forEach((category, index) => {
+            if (index < CARD_ASSIGNMENTS.length) {
+                map.set(category.id, CARD_ASSIGNMENTS[index]);
+            }
+        });
+        return map;
+    }, [enabledCategories]);
+
     const activeCategory = useMemo(() => {
         const targetId = wheelPreviewId ?? selectedCategoryId;
         if (!targetId) {
             return null;
         }
-        return enabledCategories.find((category: BingoCategory) => category.id === targetId) ?? null;
-    }, [enabledCategories, wheelPreviewId, selectedCategoryId]);
+        const category = enabledCategories.find((category: BingoCategory) => category.id === targetId);
+        if (!category) return null;
+        
+        // Add card assignment to the category
+        const cardAssignment = categoryCardMap.get(category.id);
+        return {
+            ...category,
+            cardLabel: cardAssignment?.label,
+            cardColor: cardAssignment?.color || "#6B7280", // Fallback gray
+        };
+    }, [enabledCategories, wheelPreviewId, selectedCategoryId, categoryCardMap]);
 
     const isBingoModeSelected = gameSettings.mode === "bingo";
     const hasBingoCategories = enabledCategories.length > 0;
@@ -243,11 +272,11 @@ export default function GameController({token}: Props) {
 
                     <div className="flex flex-col w-full sm:w-2/5 py-8 px-4 mx-auto relative z-20">
                         {shouldShowBingoUi && (
-                            <div className="w-full mb-6 rounded-3xl bg-white/90 backdrop-blur-sm p-5 text-center shadow-xl border-2" style={{borderColor: activeCategory?.color || '#6366f1', minHeight: '140px'}}>
+                            <div className="w-full mb-6 rounded-3xl bg-white/90 backdrop-blur-sm p-5 text-center shadow-xl border-2" style={{borderColor: activeCategory?.cardColor || '#6366f1', minHeight: '140px'}}>
                                 <div className="flex items-center justify-center gap-3 mb-2">
                                     {activeCategory ? (
-                                        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full text-2xl shadow-lg" style={{backgroundColor: activeCategory.color}}>
-                                            {activeCategory.icon}
+                                        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full text-2xl font-bold shadow-lg text-white" style={{backgroundColor: activeCategory.cardColor}}>
+                                            {activeCategory.cardLabel}
                                         </div>
                                     ) : (
                                         <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full text-2xl shadow-lg bg-indigo-600">
@@ -255,7 +284,7 @@ export default function GameController({token}: Props) {
                                         </div>
                                     )}
                                     <div className="text-left flex-1">
-                                        <p className="text-xs font-semibold uppercase tracking-[0.3em]" style={{color: activeCategory?.color || '#6366f1'}}>Bingo Challenge</p>
+                                        <p className="text-xs font-semibold uppercase tracking-[0.3em]" style={{color: activeCategory?.cardColor || '#6366f1'}}>Bingo Challenge</p>
                                         <p className="text-lg font-bold text-gray-900">
                                             {activeCategory ? activeCategory.label : "Spin the Wheel"}
                                         </p>
@@ -296,13 +325,13 @@ export default function GameController({token}: Props) {
                         <span className="text-indigo-500">Tune</span>Quest
                     </h1>
                     {shouldShowBingoUi && activeCategory && (
-                        <div className="mb-6 rounded-3xl bg-white/90 backdrop-blur-sm p-5 text-center shadow-xl border-2" style={{borderColor: activeCategory.color, minHeight: '140px'}}>
+                        <div className="mb-6 rounded-3xl bg-white/90 backdrop-blur-sm p-5 text-center shadow-xl border-2" style={{borderColor: activeCategory.cardColor, minHeight: '140px'}}>
                             <div className="flex items-center justify-center gap-3 mb-2">
-                                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full text-2xl shadow-lg" style={{backgroundColor: activeCategory.color}}>
-                                    {activeCategory.icon}
+                                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full text-2xl font-bold shadow-lg text-white" style={{backgroundColor: activeCategory.cardColor}}>
+                                    {activeCategory.cardLabel}
                                 </div>
                                 <div className="text-left flex-1">
-                                    <p className="text-xs font-semibold uppercase tracking-[0.3em]" style={{color: activeCategory.color}}>Bingo Challenge</p>
+                                    <p className="text-xs font-semibold uppercase tracking-[0.3em]" style={{color: activeCategory.cardColor}}>Bingo Challenge</p>
                                     <p className="text-lg font-bold text-gray-900">{activeCategory.label}</p>
                                 </div>
                             </div>

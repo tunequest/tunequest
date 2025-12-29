@@ -5,8 +5,6 @@ export type BingoCategory = {
     side: "A" | "B";
     difficulty: "beginner" | "advanced";
     defaultSelected: boolean;
-    color: string;
-    icon: string;
 };
 
 export const bingoCategories: BingoCategory[] = [
@@ -17,8 +15,6 @@ export const bingoCategories: BingoCategory[] = [
         side: "A",
         difficulty: "beginner",
         defaultSelected: true,
-        color: "#10b981",
-        icon: "👥",
     },
     {
         id: "before-or-after-2000",
@@ -27,8 +23,6 @@ export const bingoCategories: BingoCategory[] = [
         side: "A",
         difficulty: "beginner",
         defaultSelected: true,
-        color: "#3b82f6",
-        icon: "📅",
     },
     {
         id: "year-plus-minus-four",
@@ -37,8 +31,6 @@ export const bingoCategories: BingoCategory[] = [
         side: "A",
         difficulty: "beginner",
         defaultSelected: true,
-        color: "#8b5cf6",
-        icon: "🎯",
     },
     {
         id: "decade-beginner",
@@ -47,8 +39,6 @@ export const bingoCategories: BingoCategory[] = [
         side: "A",
         difficulty: "beginner",
         defaultSelected: true,
-        color: "#ec4899",
-        icon: "📆",
     },
     {
         id: "year-plus-minus-two",
@@ -57,8 +47,6 @@ export const bingoCategories: BingoCategory[] = [
         side: "A",
         difficulty: "beginner",
         defaultSelected: true,
-        color: "#f59e0b",
-        icon: "🎲",
     },
     {
         id: "exact-title",
@@ -67,8 +55,6 @@ export const bingoCategories: BingoCategory[] = [
         side: "B",
         difficulty: "advanced",
         defaultSelected: true,
-        color: "#ef4444",
-        icon: "🎵",
     },
     {
         id: "exact-artist",
@@ -77,8 +63,6 @@ export const bingoCategories: BingoCategory[] = [
         side: "B",
         difficulty: "advanced",
         defaultSelected: true,
-        color: "#06b6d4",
-        icon: "🎤",
     },
     {
         id: "exact-year",
@@ -87,8 +71,6 @@ export const bingoCategories: BingoCategory[] = [
         side: "B",
         difficulty: "advanced",
         defaultSelected: true,
-        color: "#6366f1",
-        icon: "📌",
     },
     {
         id: "year-plus-minus-three",
@@ -97,11 +79,10 @@ export const bingoCategories: BingoCategory[] = [
         side: "B",
         difficulty: "advanced",
         defaultSelected: true,
-        color: "#f97316",
-        icon: "🎯",
     },
 ];
 
 export const defaultSelectedCategoryIds = bingoCategories
     .filter(category => category.defaultSelected)
     .map(category => category.id);
+

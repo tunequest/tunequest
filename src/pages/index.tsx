@@ -28,12 +28,16 @@ export default function Home() {
     }, []);
 
     const isBingoMode = mode === "bingo";
-    const isStartDisabled = isBingoMode && selectedCategoryIds.length === 0;
+    const isStartDisabled = isBingoMode && selectedCategoryIds.length !== 5;
 
     const handleToggleCategory = (category: BingoCategory) => {
         setSelectedCategoryIds((prev: string[]) => {
             if (prev.includes(category.id)) {
                 return prev.filter((id: string) => id !== category.id);
+            }
+            // Only allow selecting up to 5 categories
+            if (prev.length >= 5) {
+                return prev;
             }
             return [...prev, category.id];
         });
@@ -184,11 +188,23 @@ export default function Home() {
                                         </div>
                                     ))}
                                 </div>
-                                {selectedCategoryIds.length === 0 && (
-                                    <p className="mt-4 text-sm font-semibold text-rose-600">
-                                        Select at least one category to start Bingo mode.
-                                    </p>
-                                )}
+                                <div className="mt-4">
+                                    {selectedCategoryIds.length === 0 && (
+                                        <p className="text-sm font-semibold text-rose-600">
+                                            Select exactly 5 categories to start Bingo mode.
+                                        </p>
+                                    )}
+                                    {selectedCategoryIds.length > 0 && selectedCategoryIds.length < 5 && (
+                                        <p className="text-sm font-semibold text-amber-600">
+                                            {5 - selectedCategoryIds.length} more {5 - selectedCategoryIds.length === 1 ? 'category' : 'categories'} needed (5 total required).
+                                        </p>
+                                    )}
+                                    {selectedCategoryIds.length === 5 && (
+                                        <p className="text-sm font-semibold text-green-600">
+                                            ✓ 5 categories selected - ready to play!
+                                        </p>
+                                    )}
+                                </div>
                             </section>
                         )}
 
