@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import { usePlayerDevice, useSpotifyPlayer } from "react-spotify-web-playback-sdk";
 import QRCodeScanner from "@/components/QRCodeScanner";
 import Link from "next/link";
-import { PlayButton } from "@/components/PlayButton";
 import { ForwardButton } from "@/components/ForwardButton";
 import { RewindButton } from "@/components/RewindButton";
 import ProgressBar from "@/components/ProgressBar";
+import { SpinningRecord } from "@/components/SpinningRecord";
 import NoSleep from 'nosleep.js';
 import TriggeredTimeout from "@/components/TriggeredTimeout";
 
@@ -89,10 +89,11 @@ export default function GameController({token}: Props) {
                 </>
             )}
             {!showScanner && (<>
-                <div className="flex flex-col w-full sm:w-2/5 py-24 px-4 mx-auto flex-grow">
-                    <h1 className="w-full text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl mb-12">
+                <div className="flex flex-col w-full sm:w-2/5 py-8 px-4 mx-auto flex-grow">
+                    <h1 className="w-full text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl mb-4">
                         <span className="text-indigo-500">Tune</span>Quest
                     </h1>
+                    <SpinningRecord player={player} />
                     <div className="flex items-center mb-4">
                         <input type="checkbox"  id="randomStart" name="randomStart"  checked={randomStart} onChange={(event) => setRandomStart(event.target.checked)} className="w-4 h-4 rounded" />
                         <label htmlFor="randomStart" className="ms-2 text-sm font-medium"> Random start between 0 and 60s</label>
@@ -101,8 +102,7 @@ export default function GameController({token}: Props) {
                         <ProgressBar/>
                     </div>
                     <div className="flex justify-around gap-x-6">
-                        <RewindButton player={player} amount={10}/>
-                        <PlayButton player={player}/>
+                        <RewindButton player={player}/>
                         <ForwardButton player={player} amount={10}/>
                     </div>
                     <div className="mt-16 flex w-full">
