@@ -172,8 +172,6 @@ export default function GameController({token}: Props) {
         // set position to random value between 0 and 60 seconds
         let position = randomStart ? Math.floor(Math.random() * 60000): 0;
 
-        console.log('Playing track:', trackId, 'on device:', device.device_id, 'at position:', position);
-
         try {
             const response = await fetch(
                 `https://api.spotify.com/v1/me/player/play?device_id=${device.device_id}`,
