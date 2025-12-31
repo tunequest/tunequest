@@ -54,7 +54,7 @@ export const bingoCategories: BingoCategory[] = [
         description: "The exact title of the song.",
         side: "B",
         difficulty: "advanced",
-        defaultSelected: true,
+        defaultSelected: false,
     },
     {
         id: "exact-artist",
@@ -62,7 +62,7 @@ export const bingoCategories: BingoCategory[] = [
         description: "The exact name of the artist.",
         side: "B",
         difficulty: "advanced",
-        defaultSelected: true,
+        defaultSelected: false,
     },
     {
         id: "exact-year",
@@ -70,7 +70,7 @@ export const bingoCategories: BingoCategory[] = [
         description: "The exact release year.",
         side: "B",
         difficulty: "advanced",
-        defaultSelected: true,
+        defaultSelected: false,
     },
     {
         id: "year-plus-minus-three",
@@ -78,7 +78,7 @@ export const bingoCategories: BingoCategory[] = [
         description: "Guess the release year (within +/- 3 years).",
         side: "B",
         difficulty: "advanced",
-        defaultSelected: true,
+        defaultSelected: false,
     },
 ];
 

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { bingoCategories, BingoCategory } from "@/data/bingoCategories";
+import { bingoCategories, BingoCategory, defaultSelectedCategoryIds } from "@/data/bingoCategories";
 import { defaultGameSettings, GameMode, persistGameSettings, readGameSettings } from "@/utils/gameSettings";
 
 export default function Home() {
@@ -43,8 +43,8 @@ export default function Home() {
         });
     };
 
-    const handleSelectAll = () => {
-        setSelectedCategoryIds(bingoCategories.map(category => category.id));
+    const handleReset = () => {
+        setSelectedCategoryIds(defaultSelectedCategoryIds);
     };
 
     const handleClearAll = () => {
@@ -145,10 +145,10 @@ export default function Home() {
                                     <div className="flex gap-3 text-sm font-semibold">
                                         <button
                                             className="rounded-full border border-indigo-200 px-4 py-2 text-indigo-600 hover:bg-indigo-50"
-                                            onClick={handleSelectAll}
+                                            onClick={handleReset}
                                             type="button"
                                         >
-                                            Select All
+                                            Reset
                                         </button>
                                         <button
                                             className="rounded-full border border-indigo-200 px-4 py-2 text-indigo-600 hover:bg-indigo-50"
