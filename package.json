@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "node server.js",
-    "dev:http": "next dev",
+    "dev": "NODE_OPTIONS='--dns-result-order=ipv4first' next dev",
+    "dev:https": "NODE_OPTIONS='--dns-result-order=ipv4first' node server.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

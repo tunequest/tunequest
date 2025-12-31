@@ -67,7 +67,7 @@ pnpm start
 bun start
 ```
 
-## Local testing with SSL support
+## Local testing with SSL support (HTTPS)
 
 In order to perform local test with ssl (HTTPS), create a self-signed certificate with the following command and put it in `./certs`. Adjust you local IP/hostname.
 
@@ -76,6 +76,14 @@ openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes \
   -keyout tunequest.key -out tunequest.crt \
   -subj "/CN=<YOUR.LOCAL.IP>"
 ```
+
+Start the development server with
+
+```bash
+npm run dev:https
+```
+
+The application should be available at https://<YOUR.LOCAL.IP>:3000/
 
 ## Docker
 
