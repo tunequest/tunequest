@@ -15,8 +15,8 @@ const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
 const httpsOptions = {
-  key: fs.readFileSync(path.join(__dirname, '../../certs/tunequest.key')),
-  cert: fs.readFileSync(path.join(__dirname, '../../certs/tunequest.crt')),
+  key: fs.readFileSync(path.join(__dirname, './certs/tunequest.key')),
+  cert: fs.readFileSync(path.join(__dirname, './certs/tunequest.crt')),
 };
 
 app.prepare().then(() => {

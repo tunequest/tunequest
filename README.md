@@ -67,6 +67,16 @@ pnpm start
 bun start
 ```
 
+## Local testing with SSL support
+
+In order to perform local test with ssl (HTTPS), create a self-signed certificate with the following command and put it in `./certs`. Adjust you local IP/hostname.
+
+```bash
+openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes \
+  -keyout tunequest.key -out tunequest.crt \
+  -subj "/CN=<YOUR.LOCAL.IP>"
+```
+
 ## Docker
 
 Build the docker image:
